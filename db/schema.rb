@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731210131) do
+ActiveRecord::Schema.define(version: 20140801225435) do
 
   create_table "admin_users", force: true do |t|
     t.string   "first_name",      limit: 25
@@ -24,5 +24,39 @@ ActiveRecord::Schema.define(version: 20140731210131) do
   end
 
   add_index "admin_users", ["username"], name: "index_admin_users_on_username", using: :btree
+
+  create_table "pages", force: true do |t|
+    t.integer  "subject_id"
+    t.string   "name"
+    t.string   "permalink"
+    t.integer  "position"
+    t.boolean  "visible",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pages", ["permalink"], name: "index_pages_on_permalink", using: :btree
+  add_index "pages", ["subject_id"], name: "index_pages_on_subject_id", using: :btree
+
+  create_table "sections", force: true do |t|
+    t.integer  "page_id"
+    t.string   "name"
+    t.integer  "position"
+    t.boolean  "visible",      default: false
+    t.string   "content_type"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sections", ["page_id"], name: "index_sections_on_page_id", using: :btree
+
+  create_table "subjects", force: true do |t|
+    t.string   "name"
+    t.integer  "position"
+    t.boolean  "visible",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
